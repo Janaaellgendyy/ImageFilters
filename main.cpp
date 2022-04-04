@@ -76,6 +76,7 @@ void lighten(){
                 image[i][j] =  image[i][j] + ( image[i][j] / 2);
             }
 
+
         }
     }
 
