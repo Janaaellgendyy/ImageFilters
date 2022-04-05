@@ -3,9 +3,10 @@
 #include <cstring>
 #include <cmath>
 #include "bmplib.cpp"
-
 using namespace std;
+
 unsigned char image[SIZE][SIZE];
+unsigned char secondImage[SIZE][SIZE];
 
 void loadImage ();
 void saveImage ();
@@ -14,6 +15,7 @@ void flipHorizontally();
 void flipVertically();
 void darken();
 void lighten();
+void mergeImage ();
 
 int main(){
     char choice, choice4;
@@ -32,8 +34,9 @@ int main(){
             saveImage();
             return 0; // Invert filter here
         case '3':
+            mergeImage ();
             saveImage();
-            return 0; // Merge filter here
+            return 0;
         case '4':
             cout << "Would you like to flip (h)orizontally or (v)ertically?" << endl;
             cin >> choice4;
@@ -156,5 +159,22 @@ void lighten(){
                 image[i][j] =  image[i][j] + ( image[i][j] / 2);
             }
         }
+    }
+}
+//_________________________________________
+void mergeImage (){
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            secondImage[i][j] = image[i][j];
+
+        }
+    }
+    loadImage();
+
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            image[i][j] = (image[i][j] + secondImage[i][j]) / 2;
+        }
+
     }
 }
