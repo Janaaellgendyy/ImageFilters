@@ -7,6 +7,7 @@ using namespace std;
 
 unsigned char image[SIZE][SIZE];
 unsigned char secondImage[SIZE][SIZE];
+unsigned char imageFlipped[SIZE][SIZE];
 
 void loadImage ();
 void saveImage ();
@@ -40,10 +41,10 @@ int main(){
         case '4':
             cout << "Would you like to flip (h)orizontally or (v)ertically?" << endl;
             cin >> choice4;
-            if (choice4 == 'h'){
-                flipHorizontally();
-            }else if (choice == 'v'){
+            if (choice4 == 'v'){
                 flipVertically();
+            }else if (choice4 == 'h'){
+                flipHorizontally();
             } else {
                 cout << "Invalid letter entered, please try again!" << endl;
             }
@@ -54,10 +55,10 @@ int main(){
             cin >> choice5;
             if (choice5 == "darken") {
                 darken();
-                return 0;
+                saveImage();
             } else{
                 lighten();
-                return 0;
+                saveImage();
             }
         case '6':
             saveImage();
@@ -118,9 +119,17 @@ void saveImage () {
 
 //_________________________________________
 void black_white() {
+    long avg = 0;
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
-            if (image[i][j] > 127)
+            avg += image[i][j];
+        }
+    }
+    avg /= (SIZE * SIZE);
+
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if (image[i][j] > avg)
                 image[i][j] = 255;
             else
                 image[i][j] = 0;
@@ -130,12 +139,28 @@ void black_white() {
 
 //_________________________________________
 void flipHorizontally(){
-
+    for (int j = 0; j < SIZE; j++) {
+        int start = 0;
+        int end = SIZE - 1;
+        while (start < end){
+            swap(image[start][j], image[end][j]);
+            start++;
+            end--;
+        }
+    }
 }
 
 //_________________________________________
 void flipVertically(){
-
+    for (int i = 0; i < SIZE; i++) {
+        int start = 0;
+        int end = SIZE - 1;
+        while (start < end){
+            swap(image[i][start], image[i][end]);
+            start++;
+            end--;
+        }
+    }
 }
 
 //_________________________________________
@@ -161,6 +186,7 @@ void lighten(){
         }
     }
 }
+
 //_________________________________________
 void mergeImage (){
     for (int i = 0; i < SIZE; ++i) {
