@@ -13,21 +13,25 @@ void darken();
 void lighten();
 
 int main(){
-    string choice;
-    cout << "would you like to lighten or darken your photo?" << endl;
+    int choice;
+    string choice5;
+    cout << "Welcome!" << endl;
+    loadImage();
+    cout << "Please select a filter to apply or 0 to exit:" << endl;
+    cout << " 1- Black & White Filter \n 2- Invert Filter \n 3- Merge Filter \n 4- Flip Image \n 5- Darken and Lighten Image \n 6- Rotate Image \n 7- Detect Image Edges \n 8- Enlarge Image \n 9- Shrink Image \n a- Mirror 1/2 Image \n b- Shuffle Image \n c- Blur Image \n s- Save the image to a file \n 0- Exit" << endl;
     cin >> choice;
-    if (choice == "darken") {
-        loadImage();
-        darken();
-        saveImage();
-        return 0;
-    } else{
-        loadImage();
-        lighten();
-        saveImage();
-        return 0;
+    if (choice == 5){
+        cout << "would you like to lighten or darken your photo?" << endl;
+        cin >> choice5;
+        if (choice5 == "darken") {
+            darken();
+            return 0;
+        } else{
+            lighten();
+            return 0;
+        }
     }
-
+    saveImage();
 }
 
 //_________________________________________
