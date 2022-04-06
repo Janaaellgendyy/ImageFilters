@@ -8,6 +8,7 @@ using namespace std;
 unsigned char image[SIZE][SIZE];
 unsigned char secondImage[SIZE][SIZE];
 unsigned char imageFlipped[SIZE][SIZE];
+unsigned char newimage[SIZE][SIZE];
 
 void loadImage ();
 void saveImage ();
@@ -17,6 +18,8 @@ void flipVertically();
 void darken();
 void lighten();
 void mergeImage ();
+void invert_image();
+void rotate_image();
 
 int main(){
     char choice, choice4;
@@ -32,6 +35,7 @@ int main(){
             saveImage();
             return 0;
         case '2':
+            invert_image();
             saveImage();
             return 0; // Invert filter here
         case '3':
@@ -61,6 +65,7 @@ int main(){
                 saveImage();
             }
         case '6':
+            rotate_image();
             saveImage();
             return 0; // Rotate Image here
         case '7':
@@ -200,6 +205,66 @@ void mergeImage (){
     for (int i = 0; i < SIZE; ++i) {
         for (int j = 0; j < SIZE; ++j) {
             image[i][j] = (image[i][j] + secondImage[i][j]) / 2;
+        }
+
+    }
+}
+void invert_image()
+{
+    for (int i = 0; i < SIZE; i++)
+    {
+        for (int j = 0; j < SIZE; j++) {
+            image[i][j] = 255 - image[i][j];
+        }
+    }
+}
+
+void rotate_image() {
+    int x;
+    cout << "choose an option between the following: " << endl;
+    cout << "1.rotate 90 degree " << endl;
+    cout << "2.rotate 180 degree " << endl;
+    cout << "3.rotate 270 degree " << endl;
+    cin >> x;
+    if (x == 1) {
+        for (int i = 0; i < SIZE / 2; i++) {
+            for (int j = i; j < SIZE - i - 1; j++) {
+
+                int temp = image[i][j];
+                image[i][j] = image[SIZE - 1 - j][i];
+                image[SIZE - 1 - j][i] = image[SIZE - 1 - i][SIZE - 1 - j];
+                image[SIZE - 1 - i][SIZE - 1 - j] = image[j][SIZE - 1 - i];
+                image[j][SIZE - 1 - i] = temp;
+            }
+        }
+
+    }
+    else if (x == 2) {
+        for (int i = 0; i < SIZE / 2; i++)
+        {
+            for (int j = 0; j < SIZE; j++) {
+                swap(image[i][j], image[SIZE - i - 1][SIZE - j - 1]);
+            }
+        }
+
+    }
+    else{
+        for (int i = 0; i < SIZE / 2; i++) {
+            for (int j = i; j < SIZE - i - 1; j++) {
+
+                int temp = image[i][j];
+                image[i][j] = image[SIZE - 1 - j][i];
+                image[SIZE - 1 - j][i] = image[SIZE - 1 - i][SIZE - 1 - j];
+                image[SIZE - 1 - i][SIZE - 1 - j] = image[j][SIZE - 1 - i];
+                image[j][SIZE - 1 - i] = temp;
+            }
+        }
+
+        for (int i = 0; i < SIZE / 2; i++)
+        {
+            for (int j = 0; j < SIZE; j++) {
+                swap(image[i][j], image[SIZE - i - 1][SIZE - j - 1]);
+            }
         }
 
     }
