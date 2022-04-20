@@ -20,6 +20,8 @@ void lighten();
 void mergeImage ();
 void invert_image();
 void rotate_image();
+void shrink();
+void blur();
 
 int main(){
     char choice, choice4;
@@ -75,6 +77,7 @@ int main(){
             saveImage();
             return 0; // Enlarge Image here
         case '9':
+            shrink();
             saveImage();
             return 0; // Shrink Image here
         case 'a':
@@ -84,6 +87,7 @@ int main(){
             saveImage();
             return 0; // Shuffle Image here
         case 'c':
+            blur();
             saveImage();
             return 0; // Blur Image here
         case 's':
@@ -209,6 +213,7 @@ void mergeImage (){
 
     }
 }
+//_________________________________________
 void invert_image()
 {
     for (int i = 0; i < SIZE; i++)
@@ -218,7 +223,7 @@ void invert_image()
         }
     }
 }
-
+//_________________________________________
 void rotate_image() {
     int x;
     cout << "choose an option between the following: " << endl;
@@ -265,6 +270,60 @@ void rotate_image() {
             for (int j = 0; j < SIZE; j++) {
                 swap(image[i][j], image[SIZE - i - 1][SIZE - j - 1]);
             }
+        }
+
+    }
+}
+//_________________________________________
+void shrink(){
+    int choice;
+    cout << "please choose weather you like to shrink image by\n 1) 1/2\n 2) 1/3\n 3) 1/4\n ";
+    cin >> choice;
+    if (choice == 1){
+        for (int i = 0; i < SIZE; ++i) {
+            for (int j = 0; j < SIZE; ++j) {
+
+                secondImage[i][j] = 255;
+                secondImage[i/2][j/2] = image[i][j];
+            }
+
+        }
+
+    }
+    else if(choice == 2){
+        for (int i = 0; i < SIZE; ++i) {
+            for (int j = 0; j < SIZE; ++j) {
+
+                secondImage[i][j] = 255;
+                secondImage[i/3][j/3] = image[i][j];
+            }
+
+        }
+
+    }
+    else {
+        for (int i = 0; i < SIZE; ++i) {
+            for (int j = 0; j < SIZE; ++j) {
+
+                secondImage[i][j] = 255;
+                secondImage[i/4][j/4] = image[i][j];
+            }
+
+        }
+
+    }
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            image[i][j] = secondImage[i][j];
+        }
+    }
+}
+//_________________________________________
+void blur(){
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            image[i][j] = (image[i][j] + image[i-1][j] + image[i][j-1] + image[i-1][j-1] + image[i+1][j] + image[i][j+1] + image[i+1][j+1] + image[i+1][j-1] + image[i-1][j+1])/9;
+
         }
 
     }
