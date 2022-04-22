@@ -1,3 +1,12 @@
+// FCI – Programming 1 – 2022 - Assignment 3
+// Program Name: Photoshop.cpp
+// Last Modification Date: 22/04/2022
+// Author1 and ID and Group: Jana Wael 20211026
+// Author2 and ID and Group: Maria Ehab 20210312
+// Author3 and ID and Group: Merna Islam 20210500
+// Teaching Assistant: Eng/ Afaf
+// Purpose: To practice 2D arrays.
+
 #include <iostream>
 #include <fstream>
 #include <cstring>
@@ -7,8 +16,7 @@ using namespace std;
 
 unsigned char image[SIZE][SIZE];
 unsigned char secondImage[SIZE][SIZE];
-unsigned char imageFlipped[SIZE][SIZE];
-unsigned char newimage[SIZE][SIZE];
+
 
 void loadImage ();
 void saveImage ();
@@ -22,16 +30,22 @@ void invert_image();
 void rotate_image();
 void shrink();
 void blur();
+void mirrorLeft();
+void mirrorRight();
+void mirrorUpper();
+void mirrorDown();
+void detectImage();
+
 
 int main(){
-    char choice, choice4;
+    char startChoice, flipChoice, mirrorChoice;
     string choice5;
     cout << "Welcome!" << endl;
     loadImage();
     cout << "Please select a filter to apply or 0 to exit:" << endl;
     cout << " 1- Black & White Filter \n 2- Invert Filter \n 3- Merge Filter \n 4- Flip Image \n 5- Darken and Lighten Image \n 6- Rotate Image \n 7- Detect Image Edges \n 8- Enlarge Image \n 9- Shrink Image \n a- Mirror 1/2 Image \n b- Shuffle Image \n c- Blur Image \n s- Save the image to a file \n 0- Exit" << endl;
-    cin >> choice;
-    switch (choice){
+    cin >> startChoice;
+    switch (startChoice){
         case '1':
             black_white();
             saveImage();
@@ -46,10 +60,10 @@ int main(){
             return 0;
         case '4':
             cout << "Would you like to flip (h)orizontally or (v)ertically?" << endl;
-            cin >> choice4;
-            if (choice4 == 'v'){
+            cin >> flipChoice;
+            if (flipChoice == 'v'){
                 flipVertically();
-            }else if (choice4 == 'h'){
+            }else if (flipChoice == 'h'){
                 flipHorizontally();
             } else {
                 cout << "Invalid letter entered, please try again!" << endl;
@@ -71,6 +85,7 @@ int main(){
             saveImage();
             return 0; // Rotate Image here
         case '7':
+            detectImage();
             saveImage();
             return 0; // Detect Image Edges here
         case '8':
@@ -81,6 +96,19 @@ int main(){
             saveImage();
             return 0; // Shrink Image here
         case 'a':
+            cout << "Would you to Mirror (l)eft, (r)ight, (u)pper, or (d)own side?" << endl;
+            cin >> mirrorChoice;
+            if (mirrorChoice == 'l') {
+                mirrorLeft();
+            } else if (mirrorChoice == 'r') {
+                mirrorRight();
+            }  else if (mirrorChoice == 'u') {
+                mirrorUpper();
+            }  else if (mirrorChoice == 'd') {
+                mirrorDown();
+            } else {
+                cout << "Invalid character entered, please try again! (l,r,u,d) " << endl;
+            }
             saveImage();
             return 0; // Mirror 1/2 Image here
         case 'b':
@@ -148,6 +176,7 @@ void black_white() {
 
 //_________________________________________
 void flipHorizontally(){
+
     for (int j = 0; j < SIZE; j++) {
         int start = 0;
         int end = SIZE - 1;
@@ -161,6 +190,7 @@ void flipHorizontally(){
 
 //_________________________________________
 void flipVertically(){
+
     for (int i = 0; i < SIZE; i++) {
         int start = 0;
         int end = SIZE - 1;
@@ -274,6 +304,37 @@ void rotate_image() {
 
     }
 }
+
+//_________________________________________
+void detectImage(){
+    long avg = 0;
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            avg += image[i][j];
+        }
+    }
+    avg /= (SIZE * SIZE);
+    cout << avg;
+
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if (image[i][j]-image[i+1][j] > avg/6){
+                image[i][j] = 0;
+            }else if (image[i][j]-image[i][j+1] > avg/6){
+                image[i][j] = 0;
+            }
+        }
+    }
+
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if (image[i][j] != 0){
+                image[i][j] = 255;
+            }
+        }
+    }
+}
+
 //_________________________________________
 void shrink(){
     int choice;
@@ -286,9 +347,7 @@ void shrink(){
                 secondImage[i][j] = 255;
                 secondImage[i/2][j/2] = image[i][j];
             }
-
         }
-
     }
     else if(choice == 2){
         for (int i = 0; i < SIZE; ++i) {
@@ -318,6 +377,64 @@ void shrink(){
         }
     }
 }
+
+//_________________________________________
+void mirrorLeft() {
+
+    for (int i = 0; i < SIZE; i++) {
+        int start = 0;
+        int end = SIZE - 1;
+
+        while (start <= end) {
+            image[i][start] = image[i][end];
+            start++;
+            end--;
+        }
+    }
+}
+
+//_________________________________________
+void mirrorRight() {
+    for (int i = 0; i < SIZE; i++) {
+        int start = 0;
+        int end = SIZE - 1;
+
+        while (start <= end) {
+            image[i][end] = image[i][start];
+            start++;
+            end--;
+        }
+    }
+}
+//_________________________________________
+void mirrorUpper(){
+    for (int i = 0; i < SIZE; i++) {
+        int start = 0;
+        int end = SIZE - 1;
+
+        while (start <= end) {
+            image[end][i] = image[start][i];
+            start++;
+            end--;
+        }
+    }
+}
+
+//_________________________________________
+void mirrorDown(){
+
+    for (int i = 0; i < SIZE; i++) {
+        int start = 0;
+        int end = SIZE - 1;
+
+        while (start <= end) {
+            image[start][i] = image[end][i];
+            start++;
+            end--;
+        }
+    }
+}
+
 //_________________________________________
 void blur(){
     for (int i = 0; i < SIZE; ++i) {
