@@ -457,6 +457,7 @@ void blur(){
     }
 }
 
+
 //_________________________________________
 void enlarge() {
     char inputChoice;
@@ -545,277 +546,30 @@ void enlarge() {
 }
 //_________________________________________
 void shuffle(){
-        unsigned char quad1[SIZE][SIZE];
-        unsigned char quad2[SIZE][SIZE];
-        unsigned char quad3[SIZE][SIZE];
-        unsigned char quad4[SIZE][SIZE]; //declaring four images for each quad to shuffle between them
-        char w, x, y, z;
-        int r = 0, c = 0;
-        for (int i = 0; i < SIZE / 2; i++) {
-            for (int j = 0; j < SIZE / 2; j++) {
-                quad1[r][c] = image[i][j];
-                c += 1;
+    unsigned char shuffle[SIZE][SIZE];
+    int q[4][2] = {{0, 0}, {0, 128}, {128, 0}, {128, 128}};
+    int quarter[4];
+    int x, y;
+    cout << "Please enter a new order of quarter";
+    cin >> quarter[0] >> quarter[1] >> quarter[2] >> quarter[3];
+    for (int k = 0; k < 4; k++)
+    {
+        x = q[k][0];
+        y = q[k][1];
+
+        for (int i = q[quarter[k] - 1][0]; i < (128 + q[quarter[k] - 1][0]); i++)
+        {
+
+            for (int j = q[quarter[k] - 1][1]; j < (128 + q[quarter[k] - 1][1]); j++)
+            {
+                shuffle[x][y] = image[i][j];
+                y++;
             }
+            x++;
+            y = q[k][1];
+
         }
-        r += 1;
-        c = 0;
-            //this loop for making first quad equal to the first quad in original picture
-    r=0,c=0; //returning back to zero for each loop so not to work on increased value for them
-    for (int i = 0; i < SIZE/2; i++) {
-        for (int j = SIZE / 2; j < SIZE; j++) {
-            quad2[r][c] = image[i][j];
-            c += 1;
-        }
-        r += 1;
-        c = 0;
     }
-//this loop for making second quad equal to the second quad in original picture
-    r=0,c=0;
-    for (int i = SIZE / 2; i < SIZE; i++) {
-        for (int j = 0; j < SIZE / 2; j++){
-            quad3[r][c] = image[i][j];
-            c+=1;
-        }
-        r += 1;
-        c=0;
-    }
-//this loop for making third quad equal to the third quad in original picture
-    r=0,c=0;
-    for (int i = SIZE / 2; i < SIZE; i++) {
-        for (int j = SIZE / 2; j < SIZE; j++) {
-            quad4[r][c] = image[i][j];
-            c += 1;
-        }
-        r += 1;
-        c = 0;
-    }
-//this loop for making fourth quad equal to the fourth quad in original picture
-    cout << "Please enter shuffle order ";
-    cin >> w >> x >> y >> z;
-    r = 0,c = 0;
-    switch (w) {
-        case '1' :
-            for (int i = 0; i < SIZE / 2; i++) {
-                for (int j = 0; j < SIZE / 2; j++) {
-                    image[i][j] = quad1[r][c];
-                    c += 1;
-                }
-                r += 1;
-                c = 0;
-            }
-//the increments for replacing each pixel in the photo
-            break;
-            //if the user enters first quad to be replaced with first quad , the new declared quad image will be replaced in the original photo
-        case '2' :
-            for (int i = 0; i < SIZE/2; i++) {
-                for (int j = 0; j < SIZE/2; j++){
-                    image[i][j] = quad2[r][c];
-                    c += 1;
-                }
-                r += 1;
-                c = 0;
-            }
-            break;
-            //if the user enters first quad to be replaced with second quad , the new declared quad image will be replaced in the original photo
-        case '3':
-            for (int i = 0; i < SIZE/2; i++) {
-                for (int j = 0; j < SIZE / 2; j++){
-                    image[i][j] =quad3[r][c];
-                    c += 1;
-                }
-                r += 1;
-                c = 0;
-            }
-            break;
-            //if the user enters first quad to be replaced with third quad , the new declared quad image will be replaced in the original photo
-        case '4' :
-            for (int i = 0; i < SIZE/2; i++) {
-                for (int j = 0; j < SIZE/2; j++) {
-                    image[i][j] = quad4[r][c];
-                    c += 1;
-                }
-                r += 1;
-                c = 0;
-            }
-            break;
-            //if the user enters first quad to be replaced with fourth quad , the new declared quad image will be replaced in the original photo
-            r=0,c=0;
-            switch (x) { //the same as first case goes here but instead we're working on the second quad and putting in it what the user ordered
-                case '1' :
-                    for (int i = 0; i < SIZE / 2; i++) {
-                        for (int j = SIZE / 2; j < SIZE; j++) {
-                            image[i][j] = quad1[r][c];
-                            c += 1;
-                        }
-                        r += 1;
-                        c = 0;
-                    }
-                    break;
-
-                case '2' :
-                    for (int i = 0; i < SIZE/2; i++) {
-                        for (int j = SIZE / 2; j < SIZE; j++){
-                            image[i][j] = quad2[r][c];
-                            c += 1;
-                        }
-                        r += 1;
-                        c = 0;
-                    }
-                    break;
-                case '3':
-                    for (int i = 0; i < SIZE/2; i++) {
-                        for (int j = SIZE / 2; j < SIZE; j++){
-                            image[i][j] =quad3[r][c];
-                            c += 1;
-                        }
-                        r += 1;
-                        c = 0;
-                    }
-                    break;
-                case '4' :
-                    for (int i = 0; i < SIZE/2; i++) {
-                        for (int j = SIZE / 2; j < SIZE; j++) {
-                            image[i][j] = quad4[r][c];
-                            c += 1;
-                        }
-                        r += 1;
-                        c = 0;
-                    }
-                    break;
-                    r=0,c=0;
-                    switch(y){
-                        for (int i = 0; i < SIZE / 2; i++) {
-                    for (int j = SIZE/2; j < SIZE; j++) {
-                     image[i][j] = quad1[r][c];
-                         c += 1;
-                    }
-                     r += 1;
-                     c = 0;
-                 }
-                 break;
-             case '2' :
-                 for (int i = 0; i < SIZE/2; i++) {
-                     for (int j = SIZE/2; j < SIZE; j++) {
-                         image[i][j] = quad2[r][c];
-                         c += 1;
-                     }
-                     r += 1;
-                     c = 0;
-                 }
-                 break;
-             case '3':
-                for (int i = 0; i < SIZE/2; i++) {
-                     for (int j = SIZE/2; j < SIZE; j++) {
-                         image[i][j] =quad3[r][c];
-                         c += 1;
-                     }
-                     r += 1;
-                     c = 0;
-                 }
-                 break;
-             case '4' :
-                 for (int i = 0; i < SIZE/2; i++) {
-                     for (int j = SIZE/2; j < SIZE; j++) {
-                         image[i][j] = quad4[r][c];
-                         c += 1;
-                     }
-                     r += 1;
-                     c = 0;
-                 }
-                 break;
-         }
-         r=0,c=0;
-         switch (y) { //working the third quad
-             case '1' :
-                 for (int i = SIZE/2; i < SIZE; i++) {
-                     for (int j = 0; j < SIZE / 2; j++) {
-                         image[i][j] = quad1[r][c];
-                         c += 1;
-                     }
-                     r += 1;
-                     c = 0;
-                 }
-                 break;
-             case '2' :
-                for (int i = SIZE/2; i < SIZE; i++) {
-                     for (int j = 0; j < SIZE/2; j++) {
-                         image[i][j] = quad2[r][c];
-                         c += 1;
-                     }
-                     r += 1;
-                     c = 0;
-                 }
-                 break;
-            case '3':
-                 for (int i = SIZE/2; i < SIZE; i++) {
-                     for (int j = 0; j < SIZE / 2; j++) {
-                         image[i][j] =quad3[r][c];
-                         c += 1;
-                     }
-                     r += 1;
-                     c = 0;
-                 }
-                 break;
-             case '4' :
-                 for (int i = SIZE/2; i < SIZE; i++) {
-                     for (int j = 0; j < SIZE/2; j++) {
-                         image[i][j] = quad4[r][c];
-                         c += 1;
-                     }
-                     r += 1;
-                     c = 0;
-                 }
-                 break;
-         }
-         r=0,c=0;
-
-         switch (z) { //working on fourth quad
-             case '1' :
-                 for (int i = SIZE/2; i < SIZE; i++) {
-                     for (int j = SIZE/2; j < SIZE; j++) {
-                         image[i][j] = quad1[r][c];
-                         c += 1;
-                     }
-                     r += 1;
-                     c = 0;
-                 }
-                 break;
-
-             case '2' :
-                 for (int i =SIZE/2; i < SIZE; i++) {
-                     for (int j = SIZE/2; j < SIZE; j++) {
-                         image[i][j] = quad2[r][c];
-                         c += 1;
-                     }
-                     r += 1;
-                     c = 0;
-                 }
-                 break;
-
-             case '3':
-                 for (int i = SIZE/2; i < SIZE; i++) {
-                     for (int j = SIZE/2; j < SIZE ; j++) {
-                         image[i][j] =quad3[r][c];
-                         c += 1;
-                     }
-                     r += 1;
-                     c = 0;
-                 }
-                 break;
-
-             case '4' :
-                 for (int i = SIZE/2; i < SIZE; i++) {
-                     for (int j = SIZE/2; j < SIZE; j++) {
-                         image[i][j] = quad4[r][c];
-                         c += 1;
-                     }
-                     r += 1;
-                     c = 0;
-                 }
-                 break;
-                    }
-                    }
-            }
 }
 
 // The program ends here!
