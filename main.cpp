@@ -1,9 +1,9 @@
 // FCI – Programming 1 – 2022 - Assignment 3
 // Program Name: Photoshop.cpp
 // Last Modification Date: 22/04/2022
-// Author1 and ID and Group: Jana Wael 20211026
-// Author2 and ID and Group: Maria Ehab 20210312
-// Author3 and ID and Group: Merna Islam 20210500
+// Author1 and ID and Group: Jana Wael 20211026 s9
+// Author2 and ID and Group: Maria Ehab 20210312 s9
+// Author3 and ID and Group: Merna Islam 20210500 s9
 // Teaching Assistant: Eng/ Afaf
 // Purpose: To practice 2D arrays.
 
@@ -53,7 +53,7 @@ int main(){
         case '2':
             invert_image();
             saveImage();
-            return 0; // Invert filter here
+            return 0;
         case '3':
             mergeImage ();
             saveImage();
@@ -83,18 +83,18 @@ int main(){
         case '6':
             rotate_image();
             saveImage();
-            return 0; // Rotate Image here
+            return 0;
         case '7':
             detectImage();
             saveImage();
-            return 0; // Detect Image Edges here
+            return 0;
         case '8':
             saveImage();
             return 0; // Enlarge Image here
         case '9':
             shrink();
             saveImage();
-            return 0; // Shrink Image here
+            return 0;
         case 'a':
             cout << "Would you to Mirror (l)eft, (r)ight, (u)pper, or (d)own side?" << endl;
             cin >> mirrorChoice;
@@ -117,7 +117,7 @@ int main(){
         case 'c':
             blur();
             saveImage();
-            return 0; // Blur Image here
+            return 0;
         case 's':
             return 0; // Save the image to a file
         case '0':
@@ -206,6 +206,7 @@ void flipVertically(){
 void darken () {
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
+            //divide image pixels by 2 to lower their value to be darker
             image[i][j] = (image[i][j]) / 2;
 
         }
@@ -216,10 +217,12 @@ void darken () {
 void lighten(){
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
+            //check if image after adding half the pixels to it is greater than white pixel value then make it white
             if ( image[i][j] + ( image[i][j] / 2) > 255){
                 image[i][j] = 255;
             }
             else{
+                // if not then add half the pixels value to be lighter
                 image[i][j] =  image[i][j] + ( image[i][j] / 2);
             }
         }
@@ -230,6 +233,7 @@ void lighten(){
 void mergeImage (){
     for (int i = 0; i < SIZE; ++i) {
         for (int j = 0; j < SIZE; ++j) {
+            //load the pixels of first image to 2d array called secondImage
             secondImage[i][j] = image[i][j];
 
         }
@@ -238,6 +242,7 @@ void mergeImage (){
 
     for (int i = 0; i < SIZE; ++i) {
         for (int j = 0; j < SIZE; ++j) {
+            //add pixels of first image and second image and divide by 2 (get average)
             image[i][j] = (image[i][j] + secondImage[i][j]) / 2;
         }
 
@@ -343,7 +348,7 @@ void shrink(){
     if (choice == 1){
         for (int i = 0; i < SIZE; ++i) {
             for (int j = 0; j < SIZE; ++j) {
-
+            //if we shrink by 1/2 the value we divide the index if pixels by 2
                 secondImage[i][j] = 255;
                 secondImage[i/2][j/2] = image[i][j];
             }
@@ -352,7 +357,7 @@ void shrink(){
     else if(choice == 2){
         for (int i = 0; i < SIZE; ++i) {
             for (int j = 0; j < SIZE; ++j) {
-
+                //if we shrink by 1/3 the value we divide the index if pixels by 3
                 secondImage[i][j] = 255;
                 secondImage[i/3][j/3] = image[i][j];
             }
@@ -363,7 +368,7 @@ void shrink(){
     else {
         for (int i = 0; i < SIZE; ++i) {
             for (int j = 0; j < SIZE; ++j) {
-
+                //if we shrink by 1/4 the value we divide the index if pixels by 4
                 secondImage[i][j] = 255;
                 secondImage[i/4][j/4] = image[i][j];
             }
@@ -373,6 +378,7 @@ void shrink(){
     }
     for (int i = 0; i < SIZE; ++i) {
         for (int j = 0; j < SIZE; ++j) {
+            //load result image to image array again
             image[i][j] = secondImage[i][j];
         }
     }
@@ -439,6 +445,7 @@ void mirrorDown(){
 void blur(){
     for (int i = 0; i < SIZE; ++i) {
         for (int j = 0; j < SIZE; ++j) {
+            //get every index around the the first one and divide by 9
             image[i][j] = (image[i][j] + image[i-1][j] + image[i][j-1] + image[i-1][j-1] + image[i+1][j] + image[i][j+1] + image[i+1][j+1] + image[i+1][j-1] + image[i-1][j+1])/9;
 
         }
