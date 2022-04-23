@@ -16,6 +16,7 @@ using namespace std;
 
 unsigned char image[SIZE][SIZE];
 unsigned char secondImage[SIZE][SIZE];
+unsigned char Image2[SIZE][SIZE];
 
 
 void loadImage ();
@@ -35,7 +36,8 @@ void mirrorRight();
 void mirrorUpper();
 void mirrorDown();
 void detectImage();
-
+void enlarge();
+void shuffle();
 
 int main(){
     char startChoice, flipChoice, mirrorChoice;
@@ -89,6 +91,7 @@ int main(){
             saveImage();
             return 0; // Detect Image Edges here
         case '8':
+            enlarge();
             saveImage();
             return 0; // Enlarge Image here
         case '9':
@@ -112,6 +115,7 @@ int main(){
             saveImage();
             return 0; // Mirror 1/2 Image here
         case 'b':
+            shuffle();
             saveImage();
             return 0; // Shuffle Image here
         case 'c':
@@ -444,4 +448,89 @@ void blur(){
         }
 
     }
+}
+void enlarge() {
+    char inputChoice;
+    int quarterImage[SIZE/2][SIZE/2];
+    cout << "Which quarter to enlarge? 1, 2, 3 or 4: ";
+    cin >> inputChoice; //the user inputs the quarter number
+    switch (inputChoice) //to test every case
+        case '1': { //first quarter
+            for (int i = 0; i < SIZE / 2; i++) {
+                for (int j = 0; j < SIZE / 2; j++) {
+                    quarterImage[i][j] = image[i][j];
+                }
+            }
+            for (int i = 0; i < SIZE; i++) {
+                int m = 0;
+                for (int j = 0; j < SIZE; j++) {
+                    if ((j + 1) % 2 == 0) {
+                        for (int k = (j - 1); k <= j; k++) {
+                            image[i][k] = quarterImage[i/2][m];
+                            image[i+1][k] = quarterImage[i/2][m];
+                        }
+                        m+=1;
+                    }
+                }//the pixels of the first quarter are enlarged to 256
+            }
+        break;
+        case '2': //second quarter
+            for (int i = 0; i < SIZE / 2; i++) {
+                for (int j = SIZE / 2, k = 0; j < SIZE; j++, k++) {
+                        quarterImage[i][k] = image[i][j];
+                    }
+                }
+            for (int i = 0; i < SIZE; i++) {
+                int m =0;
+                for (int j = 0; j < SIZE; j++) {
+                    if ((j + 1) % 4 == 0) {
+                        for (int k = (j - 3); k <= j; k++) {
+                            image[i][k] = quarterImage[i/2][m];
+                            image[i+1][k] = quarterImage[i/2][m];
+                        }
+                        m += 1;
+                    }
+
+                }//the pixels of the second quarter are enlarged to 256
+            }
+        break;
+        case '3': //third quarter
+            for (int i = SIZE / 2, k = 0; i < SIZE; i++, k++) {
+                for (int j = 0; j < SIZE / 2; j++) {
+                        quarterImage[k][j] = image[i][j];
+                    }//the pixels of the third quarter are enlarged to 256
+                }
+            for (int i = 0; i < SIZE; i++) {
+                int m =0;
+                for (int j = 0; j < SIZE; j++) {
+                    if ((j + 1) % 4 == 0) {
+                        for (int k = (j - 3); k <= j; k++) {
+                            image[i][k] = quarterImage[i/2][m];
+                            image[i+1][k] = quarterImage[i/2][m];
+                        }
+                        m += 1;
+                    }
+                }//the pixels of the third quarter are enlarged to 256
+            }
+        break;
+        case '4': //4th quarter
+                for (int i = SIZE / 2, c = 0; i < SIZE; i++, c++) {
+                    for (int j = SIZE / 2, k = 0; j < SIZE; j++, k++) {
+                        quarterImage[c][k] = image[i][j];
+                    }
+                }
+            for (int i = 0; i < SIZE; i++) {
+                int m =0;
+                for (int j = 0; j < SIZE; j++) {
+                    if ((j + 1) % 4 == 0) {
+                        for (int k = (j - 3); k <= j; k++) {
+                            image[i][k] = quarterImage[i/2][m];
+                            image[i+1][k] = quarterImage[i/2][m];
+                        }
+                        m += 1;
+                    }
+                }//the pixels of the 4th quarter are enlarged to 256
+            }
+        break;
+        }
 }
